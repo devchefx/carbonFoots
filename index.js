@@ -35,12 +35,9 @@ const request = async () => {
 
 // ? For displaying the home page
 app.get("/", async (req, res, next) => {
-  const resData = await request();
+  // const resData = await request();
 
-  console.log(resData.data);
-
-  //   res.send("WELCOME HERE ~ !!!!");
-  // res.send(resData.data);
+  // console.log(resData.data);
   res.render("home.ejs");
 });
 
