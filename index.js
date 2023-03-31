@@ -85,6 +85,79 @@ app.get("/activity/waste/new", async (req, res, next) => {
   res.send(resData.data);
 });
 
+// ? For Registerning new travel entry
+// ! Make it post.
+app.get("/activity/travel/new", async (req, res, next) => {
+  const rActivity =
+    "passenger_vehicle-vehicle_type_taxi-fuel_source_na-distance_na-engine_size_na";
+  const aActivity =
+    "passenger_flight-route_type_domestic-aircraft_type_na-distance_na-class_na-rf_included";
+  const sActivity = "passenger_ferry-route_type_na-fuel_source_na";
+
+  let activity_id;
+
+  switch (req.query.mode) {
+    case "road":
+      activity_id = rActivity;
+      break;
+    case "air":
+      activity_id = aActivity;
+      break;
+    case "sea":
+      activity_id = sActivity;
+      break;
+    default:
+      activity_id = rActivity;
+      break;
+  }
+
+  const resData = await axios({
+    url: "/estimate",
+    method: "post",
+    data: {
+      emission_factor: {
+        activity_id,
+      },
+      parameters: {
+        //  TODO : take param entries from user.
+        passengers: 4,
+        distance: 100,
+        distance_unit: "km",
+      },
+    },
+  });
+
+  res.send(resData.data);
+});
+
+// ? For Registerning new Flight Travel entry
+// ! Make it post.
+app.get("/activity/flight/new", async (req, res, next) => {
+  const resData = await axios({
+    url: "/travel/flights",
+    method: "post",
+    data: {
+      // TODO: take these entries from the user.
+      legs: [
+        {
+          from: "BER",
+          to: "HAM",
+          passengers: 2,
+          class: "first",
+        },
+        {
+          from: "HAM",
+          to: "JFK",
+          passengers: 2,
+          class: "economy",
+        },
+      ],
+    },
+  });
+
+  res.send(resData.data);
+});
+
 app.listen(port, (req, res) => {
   console.log("Listening to port 3002");
 });
