@@ -17,22 +17,6 @@ axios.defaults.headers.common[
 ] = `Bearer ${process.env.CLIMATIQ_API_KEY}`;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const request = async () => {
-  return await axios({
-    url: "/estimate",
-    method: "post",
-    data: {
-      emission_factor: {
-        activity_id: "heat-and-steam-type_purchased",
-      },
-      parameters: {
-        energy: 100,
-        energy_unit: "kWh",
-      },
-    },
-  });
-};
-
 // ? For displaying the home page
 app.get("/", async (req, res, next) => {
   // const resData = await request();
@@ -152,6 +136,23 @@ app.get("/activity/flight/new", async (req, res, next) => {
     },
   });
 
+  res.send(resData.data);
+});
+
+app.get("/activity/energy_cnsmp/new", async (req, res, next) => {
+  const resData = await axios({
+    url: "/estimate",
+    method: "post",
+    data: {
+      emission_factor: {
+        activity_id: "heat-and-steam-type_purchased",
+      },
+      parameters: {
+        energy: 100,
+        energy_unit: "kWh",
+      },
+    },
+  });
   res.send(resData.data);
 });
 
