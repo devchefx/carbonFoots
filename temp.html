@@ -1,0 +1,677 @@
+<article class="electricity">
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#elec_staticBackdrop"
+    >
+      Electricity
+    </button>
+  
+  
+    <div
+      class="modal fade"
+      id="elec_staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="elec_staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- * add a eletricity icon. instead of this modal title -->
+            <h1 class="modal-title fs-5" id="elec_staticBackdropLabel">
+              Modal title
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <h2 class="text-center">Electricity</h2>
+              <div class="col-12">
+                <form
+                  action="/activity/electricity/new"
+                  method="post"
+                  novalidate
+                  class="needs-validation"
+                >
+                  <div class="mb-3">
+                    <p class="form-label">Select the Type:</p>
+  
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="activity_id"
+                      name="activity_id"
+                      required
+                      checked
+                      value="electricity-energy_source_grid_mix"
+                    />
+                    <label class="form-check-label" for="activity_id"
+                      >Electricity supplied from grid</label
+                    >
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="amount">Amount</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      id="amount"
+                      name="energy"
+                      required
+                      placeholder="kWh"
+                    />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please enter a Number</div>
+                  </div>
+  
+                  <div class="mb-3">
+                    <label class="form-label" for="description"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      type="text"
+                      id="description"
+                      name="description"
+                      required
+                    ></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please add a comment.</div>
+                  </div>
+                  <div class="mb-3">
+                    <button class="btn btn-success">Calculate</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  
+  <article class="waste">
+  
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#waste_staticBackdrop"
+    >
+      Waste
+    </button>
+  
+  
+    <div
+      class="modal fade"
+      id="waste_staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="waste_staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- * add a waste icon. instead of this modal title -->
+            <h1 class="modal-title fs-5" id="waste_staticBackdropLabel">
+              Modal title
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <h2 class="text-center">Waste</h2>
+              <div class="col-12">
+                <form
+                  action="/activity/waste/new"
+                  method="post"
+                  novalidate
+                  class="needs-validation"
+                >
+                  <div class="mb-3">
+                    <p class="form-label">Select the Type:</p>
+  
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="g_activity_id"
+                      name="activity_id"
+                      required
+                      checked
+                      value="waste_type_household_residual_waste-disposal_method_landfill"
+                    />
+                    <label class="form-check-label" for="g_activity_id"
+                      >General Waste</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="pl_activity_id"
+                      name="activity_id"
+                      required
+                      value="waste_type_ldpe-disposal_method_landfilled"
+                    />
+                    <label class="form-check-label" for="pl_activity_id"
+                      >Plastic Waste( LDPE )</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="ph_activity_id"
+                      name="activity_id"
+                      required
+                      value="waste_type_hdpe-disposal_method_landfilled"
+                    />
+                    <label class="form-check-label" for="ph_activity_id"
+                      >Plastic Waste( HDPE )</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="e_activity_id"
+                      name="activity_id"
+                      required
+                      value="waste_type_mixed_electronics-disposal_method_landfilled"
+                    />
+                    <label class="form-check-label" for="e_activity_id"
+                      >Electrical Waste</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="m_activity_id"
+                      name="activity_id"
+                      required
+                      value="waste_type_mixed_metals-disposal_method_landfilled"
+                    />
+                    <label class="form-check-label" for="m_activity_id"
+                      >Metal Waste</label
+                    >
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="weight">Weight</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      id="weight"
+                      name="weight"
+                      required
+                    />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please enter a Number</div>
+                  </div>
+  
+                  <div class="md-3">
+                    <label for="validationServer04" class="form-label"
+                      >Units</label
+                    >
+                    <select
+                      class="form-select"
+                      id="validationServer04"
+                      aria-describedby="validationServer04Feedback"
+                      name="weight_unit"
+                      required
+                    >
+                      <option selected value="g">Gram</option>
+                      <option value="kg">Kilogram</option>
+                      <option value="t">Metric Ton</option>
+                      <option value="lb">Pound</option>
+                      <option value="ton">Ton</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please select a valid state.
+                    </div>
+                  </div>
+  
+                  <div class="mb-3">
+                    <label class="form-label" for="description"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      type="text"
+                      id="description"
+                      name="description"
+                      required
+                    ></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please add a comment.</div>
+                  </div>
+                  <div class="mb-3">
+                    <button class="btn btn-success">Calculate</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  
+  <article class="travel">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#trav_staticBackdrop"
+    >
+      Travel
+    </button>
+    <div
+      class="modal fade"
+      id="trav_staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="trav_staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- * add a tarvel icon. instead of this modal title -->
+            <h1 class="modal-title fs-5" id="elec_staticBackdropLabel">
+              Modal title
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <h2 class="text-center">Travel</h2>
+              <div class="col-12">
+                <form
+                  action="/activity/travel/new"
+                  method="post"
+                  novalidate
+                  class="needs-validation"
+                >
+                  <div class="mb-3">
+                    <p class="form-label">Select the Type:</p>
+  
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="land_activity_id"
+                      name="activity_id"
+                      required
+                      checked
+                      value="passenger_vehicle-vehicle_type_taxi-fuel_source_na-distance_na-engine_size_na"
+                    />
+                    <label class="form-check-label" for="land_activity_id"
+                      >Road Travel</label
+                    >
+  
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="air_activity_id"
+                      name="activity_id"
+                      required
+                      value="passenger_flight-route_type_domestic-aircraft_type_na-distance_na-class_na-rf_included"
+                    />
+                    <label class="form-check-label" for="air_activity_id"
+                      >Air Travel</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="sea_activity_id"
+                      name="activity_id"
+                      required
+                      value="passenger_ferry-route_type_na-fuel_source_na"
+                    />
+                    <label class="form-check-label" for="sea_activity_id"
+                      >Sea Travel</label
+                    >
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="distance">Distance</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      id="distance"
+                      name="distance"
+                      required
+                    />
+                  </div>
+                  <div class="md-3">
+                    <label for="t_validationServer04" class="form-label"
+                      >Units</label
+                    >
+                    <select
+                      class="form-select"
+                      id="t_validationServer04"
+                      aria-describedby="t_validationServer04Feedback"
+                      name="distance_unit"
+                      required
+                    >
+                      <option selected value="m">Meter</option>
+                      <option value="km">Kilometer</option>
+                      <option value="ft">Foot</option>
+                      <option value="mi">Miles</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please select a valid state.
+                    </div>
+                  </div>
+                  <div class="valid-feedback">Looks good!</div>
+                  <div class="invalid-feedback">Please enter a Number</div>
+  
+                  <div class="mb-3">
+                    <label class="form-label" for="passengers">Passengers</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      id="passengers"
+                      name="passengers"
+                      required
+                    />
+                  </div>
+  
+                  <div class="mb-3">
+                    <label class="form-label" for="description"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      type="text"
+                      id="description"
+                      name="description"
+                      required
+                    ></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please add a comment.</div>
+                  </div>
+                  <div class="mb-3">
+                    <button class="btn btn-success">Calculate</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  
+  <article class="fuel">
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#fuel_staticBackdrop"
+    >
+      Fuel Consumption
+    </button>
+  
+  
+    <div
+      class="modal fade"
+      id="fuel_staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="fuel_staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- * add a tarvel icon. instead of this modal title -->
+            <h1 class="modal-title fs-5" id="fuel_staticBackdropLabel">
+              Modal title
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <h2 class="text-center">Fuel Consumption</h2>
+              <div class="col-12">
+                <form
+                  action="/activity/fuel/new"
+                  method="post"
+                  novalidate
+                  class="needs-validation"
+                >
+                  <div class="mb-3">
+                    <p class="form-label">Select the Type:</p>
+  
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="diesel_activity_id"
+                      name="activity_id"
+                      required
+                      value="fuel_type_diesel-fuel_use_na"
+                    />
+                    <label class="form-check-label" for="diesel_activity_id"
+                      >Diesel</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="lpg_activity_id"
+                      name="activity_id"
+                      required
+                      value="fuel_type_lpg-fuel_use_na"
+                    />
+                    <label class="form-check-label" for="lpg_activity_id"
+                      >LPG</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="cng_activity_id"
+                      name="activity_id"
+                      required
+                      value="fuel_type_cng-fuel_use_na"
+                    />
+                    <label class="form-check-label" for="cng_activity_id"
+                      >CNG</label
+                    >
+                    <input
+                      type="radio"
+                      class="form-check-input"
+                      id="naturalgas_activity_id"
+                      name="activity_id"
+                      required
+                      value="fuel_type_natural_gas-fuel_use_na"
+                    />
+                    <label class="form-check-label" for="naturalgas_activity_id"
+                      >Natural Gas</label
+                    >
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="volume">Volume</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      id="volume"
+                      name="volume"
+                      required
+                    />
+                  </div>
+                  <div class="md-3">
+                    <label for="f_validationServer04" class="form-label"
+                      >Units</label
+                    >
+                    <select
+                      class="form-select"
+                      id="f_validationServer04"
+                      aria-describedby="f_validationServer04Feedback"
+                      name="volume_unit"
+                      required
+                    >
+                      <option selected value="ml">Milliliter( ml )</option>
+                      <option value="l">Liter( l )</option>
+                      <option value="m3">Cubic Meter( m3 )</option>
+                      <option value="bbl">Barrel( bbl )</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please select a valid state.
+                    </div>
+                  </div>
+                  <div class="valid-feedback">Looks good!</div>
+                  <div class="invalid-feedback">Please enter a Number</div>
+  
+                  <div class="mb-3">
+                    <label class="form-label" for="description"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      type="text"
+                      id="description"
+                      name="description"
+                      required
+                    ></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please add a comment.</div>
+                  </div>
+                  <div class="mb-3">
+                    <button class="btn btn-success">Calculate</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Understood</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  
+  
+  
+  <section class="previousLogs">
+    <% allAct.forEach(act => { %>
+  
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target=<%= `#${act._id}` %>
+            aria-expanded="false"
+            aria-controls="collapseOne"
+          >
+            <%= act.category %>
+          </button>
+        </h2>
+        <div
+          id=<%= `${act._id}` %>
+          class="accordion-collapse collapse"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body">
+            <p>CO2 Equivalents : <%= `${act.co2_equi}` %></p>
+            <p>Description : <%= `${act.description}` %></p>
+            <p>Date & Time : <%= `${act.date_of_log}` %></p>
+            <% if (act.volume) { %>
+              <p>Volume : <%= `${act.volume}` %></p>
+              <p>Volume_Unit : <%= `${act.volume_unit}` %></p>
+            <% } %>
+            <% if (act.energy) { %>
+              <p>Energy : <%= `${act.energy}` %></p>
+              <p>Energy_Unit : <%= `${act.energy_unit}` %></p>
+            <% } %>
+            <% if (act.distance) { %>
+              <p>Distance : <%= `${act.distance}` %></p>
+              <p>Distance_Unit : <%= `${act.distance_unit}` %></p>
+            <% } %>
+            <% if (act.weight) { %>
+              <p>Weight : <%= `${act.weight}` %></p>
+              <p>Weight_Unit : <%= `${act.weight_unit}` %></p>
+            <% } %>
+            <p>Constituent_Gases : <%= act.constituent_gases %></p>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </section>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
