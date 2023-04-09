@@ -1,0 +1,217 @@
+
+body{
+    margin: 0;
+}
+
+.navbar .navbar-nav .nav-item a{
+    padding: 25px;
+}
+.navbar .navbar-nav .nav-but{
+    padding: 10px;
+}
+.navbar{
+    background-color:rgb(8, 21, 27, 0.9);
+}
+.nav-link{
+  color: white !important;
+}
+
+#dash h1{
+margin-top: 0;
+padding-top: 5%;
+padding-left: 10%;
+margin-bottom: 0;
+letter-spacing: 5px;
+   font-size: 5rem;
+}
+
+/* #dash::after{
+    content: " ";
+    display: block;
+    position: absolute;
+    top:120px;
+    height:6rem;
+    width: 50%;
+    border-bottom-left-radius: 300px;
+    border-bottom: 9px dotted lightgrey;
+    padding-top: 0;
+} */
+
+main{
+    background-image: url(./assest/images/astrocat.png), url(./assest/images/footer.jpeg);
+    background-size:  27%, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-position: top right, center ;
+    background-attachment: fixed, fixed ;
+    color: white;
+    font-family: sans-serif;
+}
+#cards-wrapper{
+    height: auto;
+    width: 100%;
+    /* border: 5px solid black; */
+   
+    /* display: flex; */
+    /* justify-content: center; */
+}
+#cards-wrapper-header{
+    text-align: center;
+    width: 100%;
+}
+#cards-wrapper-header h1{
+    margin-top: 8%;
+    font-size: 2rem;
+    margin-bottom: 1%;
+}
+#cards-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 3%;
+   
+    justify-content: space-around;
+    height: auto;
+    width: 100%;
+    /* border: 5px solid black; */
+    /* margin-top: 2%; */
+    padding-bottom: 5%;
+}
+.card{
+    height: 23rem;
+    width: 28rem;
+margin-top: 1%;
+margin-bottom: 3%;
+    border-radius: 50px;
+    /* background-color: aqua; */
+}
+#card-1{
+    background-image: url(assest/images/electricity.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#card-2{
+    background-image: url(assest/images/waste-img.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#card-3{
+    background-image: url(assest/images/travel.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 125%;
+}
+#card-4{
+    background-image: url(./assest/images/cargo.jpg);
+    /* background-color: blueviolet; */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#card-5{
+    background-image: url(./assest/images/energy-cnsp.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+#card-6{
+    background-image: url(assest/images/pollution.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.card{
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+      /* margin: 2.5%; */
+}
+.card::after{
+     /* box-shadow: 10px 10px 3px  rgb(39,59,80); */
+     content: "";
+    border-radius: 50px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* box-shadow: 0px 0px 15px 15px rgb(39,59,80); */
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+   
+}
+.card:hover{
+    -webkit-transform: scale(1.10, 1.10);
+    transform: scale(1.10, 1.10);
+}
+.card::after {
+    opacity: 1;
+    
+}
+/* .card:hover{
+    filter: brightness(50%);
+  -webkit-filter: brightness(50%);
+  -moz-filter: brightness(50%);
+  -o-filter: brightness(50%);
+  -ms-filter: brightness(50%);
+  
+} */
+
+.img-description {
+    position: relative;
+    height: 64%;
+    font-size: 3rem;
+    border-radius: 50px;
+    padding-top: 30%;
+    text-align: center;
+    /* top: 30%; */
+    bottom: 11%;
+    left: 0%;
+    right: 0;
+    background: rgba(29, 106, 154, 0.72);
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+  
+    /* transition effect. not necessary */
+    transition: opacity 0.4s, visibility 0.4s;
+  }
+  .card:hover .img-description {
+    visibility: visible;
+    opacity: 1;
+  }
+#footer-devchef{
+    width: 100%;
+    height: 15rem;
+    background-image: linear-gradient(to right,rgb(21,27,61) 30% , rgb(78, 126, 151));
+    /* background-color: rgb(14,17,26); */
+    display: flex;
+    flex-direction: row;
+    padding-top: 4%;
+    border-top-left-radius: 200px;
+    justify-content:space-around;
+}
+#devchef-header img{
+    padding-top: 10%;
+   width: 12.5rem;
+   height: 11.5rem;
+    border-radius: 1000px;
+}
+#social-icons{
+    padding-top: 3%;
+}
+#social-icons span{
+    display: block;
+    margin: 17%;
+}
+#social-icons img{
+    height: 2rem;
+    width: 3rem;
+}
+#copyright-span{
+    font-size: 0.7rem;
+    color:rgb(21,27,61) ;
+    padding-top: 6%;
+}

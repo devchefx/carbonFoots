@@ -10,6 +10,7 @@
       integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
       crossorigin="anonymous"
     />
+    <script src="https://kit.fontawesome.com/bea14d8597.js" crossorigin="anonymous"></script>
 
     <!-- for connecting the local CSS file for the page. -->
     <%- block('localCSS').toString() %>
@@ -19,12 +20,13 @@
   </head>
   <body>
     <!-- ! for navbar, add the partial-->
-
+    <%- include('../partials/navbar.ejs') %>
     <%-body%>
 
     <!-- ! for footer, add the partial -->
 
     <!-- Bootstrap's JS FILE -->
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
@@ -33,5 +35,30 @@
 
     <!-- for connecting the local JS FILE -->
     <%- block('localJS').toString() %>
+
+    <script>
+      (() => {
+        "use strict";
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll(".needs-validation");
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach((form) => {
+          form.addEventListener(
+            "submit",
+            (event) => {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      })();
+    </script>
   </body>
 </html>

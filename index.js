@@ -21,6 +21,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_PARSER_SEC));
 
+// Model requires
+const User = require("./models/userModel/user");
+const Electricity = require("./models/electricityModel/electricity");
+const Travel = require("./models/travelModel/travel");
+const Waste = require("./models/wasteModel/waste");
+const Fuel = require("./models/fuelModel/fuel");
+
 // Session requires
 const session = require("express-session");
 const mongoSessionStore = require("connect-mongo");
@@ -92,9 +99,6 @@ passport.use(
       clientSecret: process.env.CLIENT_SECRET,
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log("###########################################");
-      console.log(accessToken);
-      console.log(refreshToken);
       const id = profile.id;
       const email = profile.emails[0].value;
       const firstName = profile.name.givenName;
@@ -144,9 +148,6 @@ axios.defaults.headers.common[
 ] = `Bearer ${process.env.CLIMATIQ_API_KEY}`;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-// *  Requiring Models
-const User = require("./models/userModel/user.js");
-
 app.get(
   "/auth/google",
   passport.authenticate("google", {
@@ -179,81 +180,125 @@ app.get("/isloged", (req, res) => {
 app.get("/", async (req, res, next) => {
   // const resData = await request();
 
-  // console.log(resData.data);
-  if (req.user) {
-    console.log(req.user);
-    console.log("%%%%%%%%%%%%%%%%");
-    console.log(req.session);
+  if (!req.user) {
+    return res.send("login IN First");
   }
-  res.render("home.ejs");
+  // console.log(req.user);
+  const currUser = await User.findById(req.user._id)
+    .populate("elec_activities")
+    .populate("waste_activities")
+    .populate("travel_activities")
+    .populate("fuel_activities");
+  // console.log(currUser);
+  let allAct = [
+    ...currUser.elec_activities,
+    ...currUser.fuel_activities,
+    ...currUser.waste_activities,
+    ...currUser.travel_activities,
+  ];
+  allAct.sort(function (a, b) {
+    // Turn your strings into dates, and then subtract them
+    // to get a value that is either negative, positive, or zero.
+    return b.date_of_log.getTime() - a.date_of_log.getTime();
+  });
+  console.log(allAct);
+
+  res.render("home.ejs", { allAct });
 });
 
 // ? For registering new electricity entry
-// ! Make it post.
-app.get("/activity/electricity/new", async (req, res, next) => {
+app.post("/activity/electricity/new", async (req, res, next) => {
+  console.log(req.body);
+  const { activity_id, energy, description } = req.body;
   const resData = await axios({
     url: "/estimate",
     method: "post",
     data: {
       emission_factor: {
-        activity_id: "electricity-energy_source_grid_mix",
+        activity_id,
       },
       parameters: {
         // TODO : take param entries from user.
-        energy: 4200,
+        energy: Number(energy),
         energy_unit: "kWh",
       },
     },
   });
 
-  res.send(resData.data);
+  const newAct = new Electricity({
+    energy: Number(energy),
+    description,
+    energy_unit: "kWh",
+    date_of_log: new Date(),
+    category: resData.data.emission_factor.category,
+    constituent_gases: resData.data.constituent_gases,
+    co2_equi: resData.data.co2e,
+    author: req.user,
+  });
+  await newAct.save();
+
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $push: { elec_activities: newAct._id },
+    }
+  );
+
+  console.log(resData.data);
+  console.log(req.user);
+  res.redirect("/");
 });
 
 // ? For Registerning new plastic waste entry
-// ! Make it post.
-app.get("/activity/waste/new", async (req, res, next) => {
+app.post("/activity/waste/new", async (req, res, next) => {
+  console.log(req.body);
+  const { activity_id, description, weight, weight_unit } = req.body;
   const resData = await axios({
     url: "/estimate",
     method: "post",
     data: {
       emission_factor: {
-        activity_id: "waste_type_hdpe-disposal_method_combusted",
+        activity_id,
       },
       parameters: {
         //  TODO : take param entries from user.
-        weight: 80,
-        weight_unit: "kg",
+        weight: Number(weight),
+        weight_unit,
       },
     },
   });
-  res.send(resData.data);
+
+  const newAct = new Waste({
+    weight: Number(weight),
+    description,
+    weight_unit,
+    date_of_log: new Date(),
+    category: resData.data.emission_factor.category,
+    constituent_gases: resData.data.constituent_gases,
+    co2_equi: resData.data.co2e,
+    author: req.user,
+  });
+
+  await newAct.save();
+
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $push: { waste_activities: newAct._id },
+    }
+  );
+
+  // res.send(resData.data);
+  console.log(resData.data);
+  res.redirect("/");
 });
 
 // ? For Registerning new travel entry
-// ! Make it post.
-app.get("/activity/travel/new", async (req, res, next) => {
-  const rActivity =
-    "passenger_vehicle-vehicle_type_taxi-fuel_source_na-distance_na-engine_size_na";
-  const aActivity =
-    "passenger_flight-route_type_domestic-aircraft_type_na-distance_na-class_na-rf_included";
-  const sActivity = "passenger_ferry-route_type_na-fuel_source_na";
+app.post("/activity/travel/new", async (req, res, next) => {
+  console.log(req.body);
 
-  let activity_id;
-
-  switch (req.query.mode) {
-    case "road":
-      activity_id = rActivity;
-      break;
-    case "air":
-      activity_id = aActivity;
-      break;
-    case "sea":
-      activity_id = sActivity;
-      break;
-    default:
-      activity_id = rActivity;
-      break;
-  }
+  const { activity_id, distance, distance_unit, passengers, description } =
+    req.body;
 
   const resData = await axios({
     url: "/estimate",
@@ -264,60 +309,105 @@ app.get("/activity/travel/new", async (req, res, next) => {
       },
       parameters: {
         //  TODO : take param entries from user.
-        passengers: 4,
-        distance: 100,
-        distance_unit: "km",
+        passengers: Number(passengers),
+        distance: Number(distance),
+        distance_unit,
       },
     },
   });
 
-  res.send(resData.data);
-});
-
-// ? For Registerning new Flight Travel entry
-// ! Make it post.
-app.get("/activity/flight/new", async (req, res, next) => {
-  const resData = await axios({
-    url: "/travel/flights",
-    method: "post",
-    data: {
-      // TODO: take these entries from the user.
-      legs: [
-        {
-          from: "BER",
-          to: "HAM",
-          passengers: 2,
-          class: "first",
-        },
-        {
-          from: "HAM",
-          to: "JFK",
-          passengers: 2,
-          class: "economy",
-        },
-      ],
-    },
+  const newAct = new Travel({
+    distance: Number(distance),
+    distance_unit,
+    description,
+    date_of_log: new Date(),
+    category: resData.data.emission_factor.category,
+    constituent_gases: resData.data.constituent_gases,
+    author: req.user,
+    co2_equi: resData.data.co2e,
   });
 
-  res.send(resData.data);
+  await newAct.save();
+
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $push: { travel_activities: newAct._id },
+    }
+  );
+
+  console.log(resData.data);
+  res.redirect("/");
 });
 
-app.get("/activity/energy_cnsmp/new", async (req, res, next) => {
+app.post("/activity/fuel/new", async (req, res, next) => {
+  console.log(req.body);
+
+  const { activity_id, volume, volume_unit, description } = req.body;
+
   const resData = await axios({
     url: "/estimate",
     method: "post",
     data: {
       emission_factor: {
-        activity_id: "heat-and-steam-type_purchased",
+        activity_id,
       },
       parameters: {
-        energy: 100,
-        energy_unit: "kWh",
+        volume: Number(volume),
+        volume_unit,
       },
     },
   });
-  res.send(resData.data);
+
+  const newAct = new Fuel({
+    volume: Number(volume),
+    volume_unit,
+    description,
+    date_of_log: new Date(),
+    category: resData.data.emission_factor.name,
+    constituent_gases: resData.data.constituent_gases,
+    author: req.user,
+    co2_equi: resData.data.co2e,
+  });
+
+  await newAct.save();
+
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $push: { fuel_activities: newAct._id },
+    }
+  );
+  console.log(newAct.date_of_log.toString());
+  console.log(resData.data);
+  res.redirect("/");
 });
+
+app.get("/aqi", async (req, res, next) => {
+  const { cityName } = req.query;
+  const url = `https://api.waqi.info/feed/${cityName}/?token=${e475c164b3fcf8a8b99113458426ec0eec0d73e7}`;
+
+  // const resData = await axios({
+  //   baseURL:"https://api.waqi.info/feed",
+  //   url,
+  //   method: "get",
+  // });
+
+  axios
+    .get(url)
+    .then((response) => {
+      const aqiData = response.data.data.aqi;
+      console.log(aqiData);
+      res.send(`The current AQI for ${cityName} is ${aqiData}`);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error retrieving AQI data");
+    });
+
+  res.render("/");
+});
+
 app.get("/auth/logout", (req, res) => {
   req.session.destroy(function () {
     res.clearCookie("connect.sid");
