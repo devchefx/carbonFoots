@@ -159,29 +159,30 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/",
-    successRedirect: "/done",
+    failureRedirect: "/auth/google",
+    successRedirect: "/",
   })
 );
 
 // ! just for dummy use, will be removed
-app.get("/done", (req, res) => {
-  res.send("LOGIN IS successful" + `${req.session}`);
-});
+// app.get("/done", (req, res) => {
+//   res.send("LOGIN IS successful" + `${req.session}`);
+// });
 
-app.get("/isloged", (req, res) => {
-  if (req.user) {
-    return res.send("yessss");
-  }
-  res.send("NOOOOOOOOOOOOOOOO");
-});
+// app.get("/isloged", (req, res) => {
+//   if (req.user) {
+//     return res.send("yessss");
+//   }
+//   res.send("NOOOOOOOOOOOOOOOO");
+// });
 
 // ? For displaying the home page
 app.get("/", async (req, res, next) => {
   // const resData = await request();
 
   if (!req.user) {
-    return res.send("login IN First");
+//     return res.send("login IN First");
+     return res.redirect("/auth/google");
   }
   // console.log(req.user);
   const currUser = await User.findById(req.user._id)
