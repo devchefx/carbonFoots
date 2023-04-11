@@ -10,12 +10,5 @@ Below are the steps you are required to follow in order to run carbonFoots on yo
 
                   > npm i 
                   This will install all the required dependencies used like Node, Express, Axios etc.
-4) Now time to move to your code editor and to make a '.env' file in that folder. 
-5) Now edit that file with two entries as given below: 
-
-                 > PORT = 3002 //your server will run on this port
-                 > CLIMATEIQ_API_KEY  = 'YOUR CLIMATEIQ API KEY'
                   
-                  You may get your own API key to fill here by signing to the CLIMATEIQ API or just move to the this page as give below:
-                  https://app.climatiq.io/projects/359541193493709401/admin/keys
 # BOOM! and you are all set to use and customize carbonFoots.
